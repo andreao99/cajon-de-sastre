@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:grid;grid-template-columns:{{ gridCols }};row-gap:{{ rowGap }};column-gap:6px;font-family:Nunito,sans-serif">
+<sc-for list="{{ list }}" as="it" hint-placeholder-count="8">
+<div style="display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0">
+<div style="position:relative;width:{{ px }};height:{{ px }};border-radius:{{ it.rad }};background:{{ it.bg }};color:{{ it.fg }};display:grid;place-items:center;box-shadow:{{ it.sh }};transform:{{ it.tf }};animation:{{ it.anim }};z-index:{{ it.z }}">
+<sc-if value="{{ it.isApp }}" hint-placeholder-val="{{ true }}"><svg width="{{ ipx }}" height="{{ ipx }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ it.d }}"></path></svg></sc-if>
+<sc-if value="{{ it.isFolder }}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;width:70%;height:70%"><sc-for list="{{ it.minis }}" as="m"><div style="border-radius:28%;background:{{ m.bg }};display:grid;place-items:center;color:{{ m.fg }}"><svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ m.d }}"></path></svg></div></sc-for></div></sc-if>
+<sc-if value="{{ it.target }}"><div style="position:absolute;inset:-6px;border-radius:30%;background:{{ it.ring }}"></div></sc-if>
+<sc-if value="{{ edit }}"><div style="position:absolute;top:-7px;left:-7px;width:24px;height:24px;border-radius:50%;background:{{ theme.badge }};color:{{ theme.onBadge }};display:grid;place-items:center;box-shadow:{{ theme.iconShadow }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 12h12"></path></svg></div>
+<div style="position:absolute;top:-7px;right:-7px;width:24px;height:24px;border-radius:50%;background:{{ theme.badge }};color:{{ theme.onBadge }};display:grid;place-items:center;box-shadow:{{ theme.iconShadow }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19z"></path></svg></div></sc-if>
+</div>
+<span style="font-size:{{ fs }};font-weight:700;color:{{ theme.text }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%">{{ it.name }}</span>
+</div>
+</sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, t = p.theme || {}, s = +(p.size || 64), edit = p.edit === true || p.edit === 'true';
+    const list = (p.items || []).map((it, i) => ({
+      ...it,
+      rad: it.isFolder ? '26%' : '24%',
+      z: it.drag ? 5 : it.target ? 2 : 1,
+      tf: it.drag ? 'translate(-30px,-8px) scale(1.14) rotate(-3deg)' : it.target ? 'scale(1.08)' : 'none',
+      sh: it.drag ? t.lift : t.iconShadow,
+      ring: t.ring,
+      anim: edit && !it.drag ? `jiggle ${0.26 + (i % 3) * 0.03}s ease-in-out ${(i % 4) * -0.07}s infinite alternate` : 'none'
+    }));
+    return { list, edit, gridCols: `repeat(${p.cols || 4},minmax(0,1fr))`, rowGap: (p.gap || 20) + 'px', px: s + 'px', ipx: Math.round(s * 0.47), fs: s > 70 ? '13px' : '11.5px' };
+  }
+}
+</script>
+</body>
+</html>

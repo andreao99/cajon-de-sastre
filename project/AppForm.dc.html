@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:absolute;left:0;right:0;bottom:0;top:64px;border-radius:28px 28px 0 0;background:{{ theme.sheet }};box-shadow:0 -10px 40px rgba(60,40,20,.18);padding:10px 22px 0;font-family:Nunito,sans-serif;color:{{ theme.text }};display:flex;flex-direction:column;gap:12px;overflow:hidden">
+<div style="width:40px;height:5px;border-radius:99px;background:{{ theme.handle }};align-self:center"></div>
+<div style="display:flex;justify-content:space-between;align-items:center;height:30px"><span style="font-size:15px;font-weight:700;color:{{ theme.muted }};width:70px">Cancelar</span><span style="font-size:18px;font-weight:800">{{ title }}</span><span style="width:70px"></span></div>
+<sc-if value="{{ isAdd }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:4px;padding:4px;border-radius:99px;background:{{ theme.field }}"><div style="flex:1;text-align:center;padding:9px 0;border-radius:99px;background:{{ theme.sheet }};box-shadow:{{ theme.iconShadow }};font-size:14px;font-weight:800;display:flex;justify-content:center;gap:7px;align-items:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"></path></svg>Pegar código</div><div style="flex:1;text-align:center;padding:9px 0;font-size:14px;font-weight:700;color:{{ theme.muted }};display:flex;justify-content:center;gap:7px;align-items:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"></path></svg>Subir .html</div></div>
+<div style="position:relative;height:88px;border-radius:20px;background:{{ theme.field }};padding:12px 14px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.5;color:{{ theme.muted }};overflow:hidden">&lt;!doctype html&gt;<br>&lt;html lang="es"&gt;&lt;body&gt;<br>&lt;h1&gt;Mi rutina&lt;/h1&gt; …<div style="position:absolute;right:10px;bottom:9px;padding:5px 11px;border-radius:99px;background:{{ theme.sheet }};font-family:Nunito,sans-serif;font-size:12px;font-weight:700;color:{{ theme.text }}">Pegar</div></div>
+</sc-if>
+<sc-if value="{{ isEdit }}">
+<div style="display:flex;align-items:center;gap:14px"><div style="width:64px;height:64px;border-radius:24%;background:{{ cur.bg }};color:{{ cur.fg }};display:grid;place-items:center;box-shadow:{{ theme.iconShadow }}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ cur.d }}"></path></svg></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:8px"><span style="padding:8px 14px;border-radius:99px;background:{{ theme.field }};font-size:13px;font-weight:700">Reemplazar código</span><span style="padding:8px 14px;border-radius:99px;background:{{ theme.field }};font-size:13px;font-weight:700">Subir .html</span></div><span style="font-size:12px;color:{{ theme.muted }};font-weight:600">Última edición: hoy, 9:12</span></div></div>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:800;color:{{ theme.muted }}">Nombre</span><div style="padding:13px 16px;border-radius:18px;background:{{ theme.field }};font-size:15px;font-weight:700">{{ name }}</div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:800;color:{{ theme.muted }}">Icono</span>
+<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px"><sc-for list="{{ theme.formIcons }}" as="ic" hint-placeholder-count="16"><div style="height:38px;border-radius:13px;background:{{ ic.bg }};color:{{ ic.fg }};display:grid;place-items:center;box-shadow:{{ ic.sh }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ ic.d }}"></path></svg></div></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:800;color:{{ theme.muted }}">Color</span>
+<div style="display:flex;justify-content:space-between"><sc-for list="{{ theme.swatches }}" as="sw" hint-placeholder-count="8"><div style="width:32px;height:32px;border-radius:50%;background:{{ sw.bg }};box-shadow:{{ sw.sh }};display:grid;place-items:center;color:{{ sw.fg }}"><sc-if value="{{ sw.on }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></sc-if></div></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:800;color:{{ theme.muted }}">Carpeta</span>
+<div style="display:flex;gap:8px"><sc-for list="{{ theme.folders }}" as="f" hint-placeholder-count="4"><span style="padding:9px 15px;border-radius:99px;background:{{ f.bg }};color:{{ f.fg }};font-size:13px;font-weight:700">{{ f.name }}</span></sc-for></div></div>
+<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:20px;background:{{ theme.field }}"><div style="display:flex;flex-direction:column;flex:1"><span style="font-size:14px;font-weight:800">Adaptar estilo del cajón</span><span style="font-size:11.5px;font-weight:600;color:{{ theme.muted }}">Aplica colores, fuente y formas a esta app</span></div><div style="width:46px;height:28px;border-radius:99px;background:{{ theme.accent }};position:relative"><div style="position:absolute;right:3px;top:3px;width:22px;height:22px;border-radius:50%;background:{{ theme.onAccent }}"></div></div></div>
+<div style="margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:30px">
+<div style="width:100%;height:54px;border-radius:99px;background:{{ theme.accent }};color:{{ theme.onAccent }};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;box-shadow:{{ theme.shadow }}">{{ cta }}</div>
+<sc-if value="{{ isEdit }}"><div style="display:flex;gap:7px;align-items:center;color:{{ theme.danger }};font-size:14px;font-weight:800;padding:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"></path></svg>Eliminar app</div></sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props, add = p.mode !== 'edit';
+    return { isAdd: add, isEdit: !add, title: add ? 'Añadir app' : 'Editar app', cta: add ? 'Añadir app' : 'Guardar cambios', name: add ? 'Rutina de noche' : 'Skincare', cur: (p.theme.page1 || [])[0] || {} };
+  }
+}
+</script>
+</body>
+</html>

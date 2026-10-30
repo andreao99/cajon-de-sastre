@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6DAC8;font-family:Nunito,sans-serif}
+a{color:#8A5A44}a:hover{color:#6B4331}
+@keyframes jiggle{from{transform:rotate(-1.8deg)}to{transform:rotate(1.8deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{0%{left:-40%}100%{left:100%}}
+@keyframes expand{0%,8%{left:296px;top:140px;width:64px;height:64px;border-radius:15px}38%,72%{left:0;top:0;width:390px;height:844px;border-radius:0}100%{left:296px;top:140px;width:64px;height:64px;border-radius:15px}}
+</style>
+</helmet>
+<section style="padding:60px 70px;display:flex;flex-direction:column;gap:90px;width:2300px">
+<div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:44px;font-weight:800;color:#4A3F35">Cajón de sastre</div><div style="font-size:18px;font-weight:600;color:#7A6D60">Lanzador personal de mini-apps · móvil 390px, claro y oscuro, escritorio, sistema de diseño y animación de apertura</div></div>
+
+<sc-for list="{{ themes }}" as="t" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:30px">
+<div style="font-size:30px;font-weight:800;color:#4A3F35">Tema {{ t.label }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:48px 40px;align-items:flex-start">
+
+<div id="ds-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">0</span>Sistema de diseño · {{ t.label }}</div>
+<div style="width:560px;border-radius:32px;background:{{ t.bg }};color:{{ t.text }};padding:28px;box-shadow:0 24px 60px rgba(90,60,30,.2);display:flex;flex-direction:column;gap:22px;box-sizing:border-box">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">PALETA BASE</span><div style="display:flex;gap:10px"><sc-for list="{{ t.base }}" as="b"><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="height:54px;border-radius:18px;background:{{ b.hex }};box-shadow:{{ t.iconShadow }}"></div><span style="font-size:12px;font-weight:800">{{ b.name }}</span><span style="font-size:11px;font-family:ui-monospace,Menlo,monospace;color:{{ t.muted }}">{{ b.hex }}</span></div></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">PASTELES · OKLCH L {{ t.pL }}</span><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:8px"><sc-for list="{{ t.pastels }}" as="p"><div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:24%;background:{{ p.bg }};color:{{ p.fg }};display:grid;place-items:center;box-shadow:{{ t.iconShadow }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ p.d }}"></path></svg></div><span style="font-size:10.5px;font-weight:700">{{ p.name }}</span></div></sc-for></div></div>
+<div style="display:flex;gap:28px"><div style="display:flex;flex-direction:column;gap:8px;flex:1"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">RADIOS</span><div style="display:flex;gap:10px;align-items:flex-end"><div style="width:48px;height:48px;border-radius:24%;background:{{ t.field }}"></div><div style="width:48px;height:48px;border-radius:24px;background:{{ t.field }}"></div><div style="width:48px;height:34px;border-radius:28px 28px 0 0;background:{{ t.field }}"></div><div style="width:64px;height:30px;border-radius:99px;background:{{ t.field }}"></div></div><span style="font-size:11px;color:{{ t.muted }};font-weight:600">icono 24% · tarjeta 24 · hoja 28 · píldora</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;flex:1"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">SOMBRAS</span><div style="display:flex;gap:12px"><div style="width:48px;height:48px;border-radius:16px;background:{{ t.surface }};box-shadow:{{ t.iconShadow }}"></div><div style="width:48px;height:48px;border-radius:16px;background:{{ t.surface }};box-shadow:{{ t.shadow }}"></div><div style="width:48px;height:48px;border-radius:16px;background:{{ t.surface }};box-shadow:{{ t.lift }}"></div></div><span style="font-size:11px;color:{{ t.muted }};font-weight:600">icono · tarjeta · elevado</span></div></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">TIPOGRAFÍA · NUNITO</span><span style="font-size:28px;font-weight:800">Buenos días, Lucía</span><span style="font-size:17px;font-weight:700">Título de hoja · 800 / 18</span><span style="font-size:15px;font-weight:600">Texto de campo y filas · 600 / 15</span><span style="font-size:11.5px;font-weight:700">Nombre de app · 700 / 11.5</span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ t.muted }}">COMPONENTES</span>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span style="padding:13px 24px;border-radius:99px;background:{{ t.accent }};color:{{ t.onAccent }};font-weight:800;font-size:15px">Principal</span><span style="padding:13px 24px;border-radius:99px;background:{{ t.field }};font-weight:800;font-size:15px">Secundario</span><span style="padding:13px 18px;border-radius:99px;font-weight:800;font-size:15px;color:{{ t.muted }}">Texto</span><span style="padding:13px 18px;border-radius:99px;font-weight:800;font-size:15px;color:{{ t.danger }}">Eliminar</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><span style="display:flex;gap:8px;align-items:center;padding:8px 14px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.iconShadow }};font-size:13px;font-weight:700"><span style="width:9px;height:9px;border-radius:50%;background:{{ t.ok }}"></span>Sincronizado</span><span style="display:flex;gap:8px;align-items:center;padding:8px 14px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.iconShadow }};font-size:13px;font-weight:700"><span style="width:12px;height:12px;border-radius:50%;border:2.5px solid {{ t.busy }};border-right-color:transparent;animation:spin 1s linear infinite"></span>Sincronizando</span><span style="display:flex;gap:8px;align-items:center;padding:8px 14px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.iconShadow }};font-size:13px;font-weight:700"><span style="width:9px;height:9px;border-radius:50%;background:{{ t.warn }}"></span>Sin conexión</span></div>
+<div style="display:flex;gap:4px;padding:4px;border-radius:99px;background:{{ t.field }}"><span style="flex:1;text-align:center;padding:9px;border-radius:99px;background:{{ t.sheet }};box-shadow:{{ t.iconShadow }};font-size:14px;font-weight:800">Segmento activo</span><span style="flex:1;text-align:center;padding:9px;font-size:14px;font-weight:700;color:{{ t.muted }}">Inactivo</span></div>
+<div style="padding:13px 16px;border-radius:18px;background:{{ t.field }};font-size:15px;font-weight:700">Campo de texto</div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }}"><div style="width:40px;height:40px;border-radius:24%;background:{{ t.pastels.0.bg }};color:{{ t.pastels.0.fg }};display:grid;place-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.drop }}"></path></svg></div><span style="flex:1;font-size:15px;font-weight:700">Fila de lista</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ t.muted }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.chev }}"></path></svg></div>
+<div style="display:flex;gap:22px;align-items:center"><div style="width:64px;height:64px;border-radius:24%;background:{{ t.pastels.3.bg }};color:{{ t.pastels.3.fg }};display:grid;place-items:center;box-shadow:{{ t.iconShadow }}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.utensils }}"></path></svg></div><div style="width:64px;height:64px;border-radius:26%;background:{{ t.folderBg }};display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:11px;box-sizing:border-box"><div style="border-radius:28%;background:{{ t.pastels.0.bg }}"></div><div style="border-radius:28%;background:{{ t.pastels.1.bg }}"></div><div style="border-radius:28%;background:{{ t.pastels.2.bg }}"></div><div style="border-radius:28%;background:{{ t.pastels.4.bg }}"></div></div><div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:{{ t.text }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span></div><div style="width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div></div></div>
+</div></div>
+
+<div id="home-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">A</span>Inicio · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:62px;left:26px;right:26px"><div style="font-size:13px;font-weight:600;color:{{ t.muted }}">Jueves 30 de octubre</div><div style="font-size:22px;font-weight:800;margin-top:2px">Buenos días, Lucía</div></div>
+<div style="position:absolute;top:142px;left:18px;right:18px"><dc-import name="HomeGrid" items="{{ t.page1 }}" theme="{{ t }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;bottom:34px;left:26px;right:26px;display:flex;justify-content:space-between;align-items:center"><div style="width:46px;height:46px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.sliders }}"></path></svg></div><div style="display:flex;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:{{ t.text }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span></div><div style="width:46px;height:46px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="{{ i.plus }}"></path></svg></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="pull-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">B</span>Buscar · deslizar hacia abajo · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:60px;left:18px;right:18px;height:50px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:flex;align-items:center;gap:10px;padding:0 18px;color:{{ t.muted }};font-size:16px;font-weight:700"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="{{ i.search }}"></path></svg>Buscar</div>
+<div style="position:absolute;top:128px;left:0;right:0;text-align:center;font-size:12px;font-weight:700;color:{{ t.muted }}">Suelta para buscar</div>
+<div style="position:absolute;top:196px;left:18px;right:18px"><dc-import name="HomeGrid" items="{{ t.page1 }}" theme="{{ t }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="search-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">C</span>Buscando · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:60px;left:18px;right:18px;display:flex;gap:14px;align-items:center"><div style="flex:1;height:50px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:flex;align-items:center;gap:10px;padding:0 18px;font-size:16px;font-weight:700"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="{{ i.search }}"></path></svg>ru<span style="width:2px;height:20px;background:{{ t.accent }};border-radius:2px"></span></div><span style="font-size:15px;font-weight:800;color:{{ t.muted }}">Cancelar</span></div>
+<div style="position:absolute;top:136px;left:18px;right:18px;display:flex;flex-direction:column;gap:12px"><span style="font-size:13px;font-weight:800;color:{{ t.muted }};padding-left:6px">3 resultados</span>
+<div style="border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:6px 0"><sc-for list="{{ t.results }}" as="r"><div style="display:flex;align-items:center;gap:14px;padding:10px 16px"><div style="width:44px;height:44px;border-radius:24%;background:{{ r.bg }};color:{{ r.fg }};display:grid;place-items:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg></div><div style="display:flex;flex-direction:column"><span style="font-size:16px;font-weight:800">{{ r.name }}</span><span style="font-size:12.5px;font-weight:600;color:{{ t.muted }}">{{ r.where }}</span></div></div></sc-for></div>
+<span style="font-size:13px;font-weight:800;color:{{ t.muted }};padding:8px 0 0 6px">Recientes</span>
+<div style="display:flex;gap:14px;padding-left:6px"><dc-import name="HomeGrid" items="{{ t.recents }}" theme="{{ t }}" cols="4" size="56" hint-size="100%,90px"></dc-import></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="fixed-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">D</span>Alternativa: barra fija · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:60px;left:18px;right:18px;display:flex;gap:12px;align-items:center"><div style="flex:1;height:50px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:flex;align-items:center;gap:10px;padding:0 18px;color:{{ t.muted }};font-size:15px;font-weight:700"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="{{ i.search }}"></path></svg>Buscar en tu cajón</div><div style="width:50px;height:50px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.sliders }}"></path></svg></div></div>
+<div style="position:absolute;top:140px;left:18px;right:18px"><dc-import name="HomeGrid" items="{{ t.page1 }}" theme="{{ t }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;bottom:34px;left:26px;right:26px;display:flex;justify-content:center;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:{{ t.text }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span><span style="width:8px;height:8px;border-radius:50%;background:{{ t.handle }}"></span></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="folder-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">E</span>Carpeta abierta · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:142px;left:18px;right:18px;filter:blur(5px);opacity:.5"><dc-import name="HomeGrid" items="{{ t.page1 }}" theme="{{ t }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;inset:0;background:{{ t.overlay }}"></div>
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:170px;left:22px;right:22px;border-radius:28px;background:{{ t.sheet }};box-shadow:{{ t.lift }};padding:22px 20px 20px;display:flex;flex-direction:column;gap:20px;align-items:center">
+<div style="display:flex;align-items:center;gap:8px;font-size:22px;font-weight:800">Bienestar<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{ t.muted }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.pencil }}"></path></svg></div>
+<div style="width:100%"><dc-import name="HomeGrid" items="{{ t.folderApps }}" theme="{{ t }}" cols="3" size="72" gap="22" hint-size="100%,260px"></dc-import></div>
+<div style="display:flex;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:{{ t.text }}"></span><span style="width:7px;height:7px;border-radius:50%;background:{{ t.handle }}"></span></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="edit-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">F</span>Modo edición · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:60px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center"><div style="width:44px;height:44px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="{{ i.plus }}"></path></svg></div><div style="padding:12px 24px;border-radius:99px;background:{{ t.accent }};color:{{ t.onAccent }};font-size:15px;font-weight:800;box-shadow:{{ t.shadow }}">Listo</div></div>
+<div style="position:absolute;top:142px;left:18px;right:18px"><dc-import name="HomeGrid" items="{{ t.page1Edit }}" theme="{{ t }}" cols="4" size="64" edit="true" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;bottom:90px;left:40px;right:40px;text-align:center;font-size:13px;font-weight:700;color:{{ t.muted }};line-height:1.45">Arrastra para reordenar · suéltalo sobre otra app para crear una carpeta</div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="add-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">G</span>Hoja «Añadir app» · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:142px;left:18px;right:18px;opacity:.6"><dc-import name="HomeGrid" items="{{ t.page1 }}" theme="{{ t }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;inset:0;background:{{ t.overlay }}"></div>
+<dc-import name="AppForm" theme="{{ t }}" mode="add" hint-size="100%,780px"></dc-import>
+</div></div>
+
+<div id="editapp-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">H</span>Hoja «Editar app» · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:142px;left:18px;right:18px;opacity:.6"><dc-import name="HomeGrid" items="{{ t.page1Edit }}" theme="{{ t }}" cols="4" size="64" edit="true" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;inset:0;background:{{ t.overlay }}"></div>
+<dc-import name="AppForm" theme="{{ t }}" mode="edit" hint-size="100%,780px"></dc-import>
+</div></div>
+
+<div id="code-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">J</span>Código secreto · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:130px;left:28px;right:28px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+<div style="width:92px;height:92px;border-radius:26%;background:{{ t.pastels.5.bg }};color:{{ t.pastels.5.fg }};display:grid;place-items:center;box-shadow:{{ t.shadow }}"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.key }}"></path></svg></div>
+<div style="font-size:28px;font-weight:800;margin-top:6px">Tu código secreto</div>
+<div style="font-size:15px;font-weight:600;line-height:1.5;color:{{ t.muted }};max-width:300px">Es la llave que sincroniza tus apps entre todos tus dispositivos. Introdúcelo o genera uno nuevo.</div>
+<div style="width:100%;margin-top:10px;padding:18px 16px;border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};font-size:23px;font-weight:800;letter-spacing:.1em;font-variant-numeric:tabular-nums">K7QM-2WXD-9PLA</div>
+<div style="width:100%;height:56px;border-radius:99px;background:{{ t.accent }};color:{{ t.onAccent }};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;box-shadow:{{ t.shadow }}">Entrar</div>
+<div style="display:flex;gap:8px;align-items:center;font-size:15px;font-weight:800;padding:8px"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.refresh }}"></path></svg>Generar código nuevo</div></div>
+<div style="position:absolute;bottom:50px;left:40px;right:40px;text-align:center;font-size:12.5px;font-weight:600;line-height:1.5;color:{{ t.muted }}">Guárdalo en un lugar seguro: sin él no podrás recuperar tus apps en otro dispositivo.</div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="sync-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">K</span>Sincronizando · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:170px;left:28px;right:28px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+<div style="position:relative;width:104px;height:104px;display:grid;place-items:center"><div style="position:absolute;inset:0;border-radius:50%;border:5px solid {{ t.field }};border-top-color:{{ t.busy }};animation:spin 1.2s linear infinite;box-sizing:border-box"></div><div style="width:70px;height:70px;border-radius:26%;background:{{ t.pastels.4.bg }};color:{{ t.pastels.4.fg }};display:grid;place-items:center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.cloud }}"></path></svg></div></div>
+<div style="font-size:26px;font-weight:800;margin-top:6px">Sincronizando…</div>
+<div style="font-size:15px;font-weight:600;color:{{ t.muted }}">Trayendo tu cajón desde la nube</div>
+<div style="position:relative;width:220px;height:8px;border-radius:99px;background:{{ t.field }};overflow:hidden"><div style="position:absolute;top:0;bottom:0;width:40%;border-radius:99px;background:{{ t.busy }};animation:slide 1.4s ease-in-out infinite"></div></div>
+<div style="width:100%;margin-top:14px;border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:8px 18px;text-align:left"><sc-for list="{{ t.steps }}" as="s"><div style="display:flex;align-items:center;gap:12px;padding:11px 0;font-size:15px;font-weight:700;color:{{ s.c }}"><div style="width:22px;height:22px;border-radius:50%;background:{{ s.bg }};display:grid;place-items:center;color:{{ t.onAccent }}"><sc-if value="{{ s.done }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></sc-if></div>{{ s.name }}</div></sc-for></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="settings-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">L</span>Ajustes · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:62px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:28px;font-weight:800">Ajustes</span><div style="width:40px;height:40px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="{{ i.x }}"></path></svg></div></div>
+<div style="position:absolute;top:128px;left:18px;right:18px;display:flex;flex-direction:column;gap:14px">
+<div style="border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:16px 16px 18px;display:flex;flex-direction:column;gap:12px"><span style="font-size:13px;font-weight:800;color:{{ t.muted }}">Tema</span><div style="display:flex;gap:4px;padding:4px;border-radius:99px;background:{{ t.field }}"><sc-for list="{{ t.seg }}" as="s"><div style="flex:1;display:flex;gap:6px;justify-content:center;align-items:center;padding:10px 0;border-radius:99px;background:{{ s.bg }};box-shadow:{{ s.sh }};font-size:13.5px;font-weight:{{ s.w }};color:{{ s.c }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ s.d }}"></path></svg>{{ s.name }}</div></sc-for></div></div>
+<div style="border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:16px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:800;color:{{ t.muted }}">Sincronización</span><span style="display:flex;gap:8px;align-items:center;padding:6px 12px;border-radius:99px;background:{{ t.field }};font-size:12.5px;font-weight:700"><span style="width:9px;height:9px;border-radius:50%;background:{{ t.ok }}"></span>Sincronizado · hace 2 min</span></div>
+<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;padding:13px 16px;border-radius:18px;background:{{ t.field }};font-size:16px;font-weight:800;letter-spacing:.08em">K7QM-••••-••LA</div><div style="width:44px;height:44px;border-radius:50%;background:{{ t.field }};display:grid;place-items:center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.eye }}"></path></svg></div><div style="width:44px;height:44px;border-radius:50%;background:{{ t.accent }};color:{{ t.onAccent }};display:grid;place-items:center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.copy }}"></path></svg></div></div>
+<span style="font-size:12.5px;font-weight:600;color:{{ t.muted }};line-height:1.45">Usa este código en otro dispositivo para ver las mismas apps.</span></div>
+<div style="border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:6px 16px"><div style="display:flex;align-items:center;gap:14px;padding:13px 0;font-size:15px;font-weight:700"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.download }}"></path></svg><span style="flex:1">Exportar copia de seguridad</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="{{ t.muted }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.chev }}"></path></svg></div><div style="display:flex;align-items:center;gap:14px;padding:13px 0;font-size:15px;font-weight:700"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.upload }}"></path></svg><span style="flex:1">Importar copia de seguridad</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="{{ t.muted }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.chev }}"></path></svg></div></div>
+<div style="border-radius:24px;background:{{ t.surface }};box-shadow:{{ t.shadow }};padding:16px;display:flex;align-items:center;gap:14px;color:{{ t.danger }}"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.lock }}"></path></svg><div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:800">Cerrar vault en este dispositivo</span><span style="font-size:12.5px;font-weight:600;color:{{ t.muted }}">Tus apps siguen guardadas en la nube</span></div></div>
+</div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+<div id="empty-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">M</span>Estado vacío · {{ t.label }}</div>
+<div style="position:relative;width:390px;height:844px;border-radius:44px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:800"><span>9:41</span><span style="width:24px;height:12px;border-radius:4px;background:{{ t.text }}"></span></div>
+<div style="position:absolute;top:62px;left:26px;right:26px"><div style="font-size:13px;font-weight:600;color:{{ t.muted }}">Jueves 30 de octubre</div><div style="font-size:22px;font-weight:800;margin-top:2px">Buenos días, Lucía</div></div>
+<div style="position:absolute;top:150px;left:18px;right:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;justify-items:center;opacity:.8"><div style="width:64px;height:64px;border-radius:24%;background:{{ t.field }}"></div><div style="width:64px;height:64px;border-radius:24%;background:{{ t.field }};opacity:.7"></div><div style="width:64px;height:64px;border-radius:24%;background:{{ t.field }};opacity:.45"></div><div style="width:64px;height:64px;border-radius:24%;background:{{ t.field }};opacity:.25"></div></div>
+<div style="position:absolute;top:290px;left:28px;right:28px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+<div style="position:relative;width:220px;height:190px"><div style="position:absolute;left:30px;top:6px;width:44px;height:44px;border-radius:50%;background:{{ t.pastels.1.bg }};box-shadow:{{ t.iconShadow }}"></div><div style="position:absolute;left:100px;top:0;width:40px;height:40px;border-radius:24%;background:{{ t.pastels.2.bg }};transform:rotate(14deg);box-shadow:{{ t.iconShadow }}"></div><div style="position:absolute;left:160px;top:22px;width:32px;height:32px;border-radius:8px;background:{{ t.pastels.0.bg }};transform:rotate(45deg);box-shadow:{{ t.iconShadow }}"></div>
+<div style="position:absolute;left:0;right:0;top:66px;height:112px;border-radius:30px;background:{{ t.pastels.5.bg }};box-shadow:{{ t.shadow }}"></div><div style="position:absolute;left:14px;right:14px;top:96px;height:78px;border-radius:24px;background:{{ t.pastels.3.bg }}"></div><div style="position:absolute;left:78px;right:78px;top:124px;height:14px;border-radius:99px;background:{{ t.pastels.3.fg }};opacity:.55"></div></div>
+<div style="font-size:26px;font-weight:800">Tu cajón está vacío</div>
+<div style="font-size:15px;font-weight:600;line-height:1.5;color:{{ t.muted }};max-width:290px">Añade tu primera mini-app pegando su código HTML o subiendo un archivo.</div>
+<div style="display:flex;gap:9px;align-items:center;padding:0 30px;height:54px;border-radius:99px;background:{{ t.accent }};color:{{ t.onAccent }};font-size:16px;font-weight:800;box-shadow:{{ t.shadow }};margin-top:6px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="{{ i.plus }}"></path></svg>Añadir app</div></div>
+<div style="position:absolute;bottom:34px;left:26px;right:26px;display:flex;justify-content:flex-start"><div style="width:46px;height:46px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.sliders }}"></path></svg></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:{{ t.text }};opacity:.8"></div>
+</div></div>
+
+</div>
+
+<div id="desk-{{ t.id }}" style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">N</span>Escritorio 1280 · {{ t.label }}</div>
+<div style="position:relative;width:1280px;height:780px;border-radius:24px;overflow:hidden;background:{{ t.bg }};color:{{ t.text }};font-family:Nunito,sans-serif;box-shadow:0 24px 60px rgba(90,60,30,.2)">
+<div style="position:absolute;top:28px;left:40px;right:40px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:20px;font-weight:800;width:240px">Cajón de sastre</span><div style="width:440px;height:50px;border-radius:99px;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:flex;align-items:center;gap:10px;padding:0 20px;color:{{ t.muted }};font-size:15px;font-weight:700"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="{{ i.search }}"></path></svg><span style="flex:1">Buscar en tu cajón</span><span style="padding:3px 9px;border-radius:99px;background:{{ t.field }};font-size:12px">⌘ K</span></div><div style="width:240px;display:flex;justify-content:flex-end"><div style="width:46px;height:46px;border-radius:50%;background:{{ t.surface }};box-shadow:{{ t.shadow }};display:grid;place-items:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ i.sliders }}"></path></svg></div></div></div>
+<div style="position:absolute;top:130px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:36px"><div style="text-align:center"><div style="font-size:14px;font-weight:600;color:{{ t.muted }}">Jueves 30 de octubre</div><div style="font-size:30px;font-weight:800;margin-top:2px">Buenos días, Lucía</div></div>
+<div style="width:680px"><dc-import name="HomeGrid" items="{{ t.deskItems }}" theme="{{ t }}" cols="6" size="84" gap="30" hint-size="680px,420px"></dc-import></div>
+<div style="display:flex;gap:9px"><span style="width:9px;height:9px;border-radius:50%;background:{{ t.text }}"></span><span style="width:9px;height:9px;border-radius:50%;background:{{ t.handle }}"></span><span style="width:9px;height:9px;border-radius:50%;background:{{ t.handle }}"></span></div></div>
+<div style="position:absolute;bottom:34px;right:40px;display:flex;gap:9px;align-items:center;padding:0 26px;height:52px;border-radius:99px;background:{{ t.accent }};color:{{ t.onAccent }};font-size:15px;font-weight:800;box-shadow:{{ t.shadow }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="{{ i.plus }}"></path></svg>Añadir app</div>
+</div></div>
+</div>
+</sc-for>
+
+<div style="display:flex;flex-direction:column;gap:30px">
+<div style="font-size:30px;font-weight:800;color:#4A3F35">Apertura de una app · fotogramas clave</div>
+<div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+<sc-for list="{{ frames }}" as="f" hint-placeholder-count="5">
+<div style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">{{ f.n }}</span>{{ f.time }} · {{ f.label }}</div>
+<div style="position:relative;width:195px;height:422px;border-radius:22px;overflow:hidden;box-shadow:0 16px 40px rgba(90,60,30,.18)"><div style="position:absolute;left:0;top:0;width:390px;height:844px;transform:scale(.5);transform-origin:0 0;background:{{ f.th.bg }};overflow:hidden;font-family:Nunito,sans-serif;color:{{ f.th.text }}">
+<div style="position:absolute;top:142px;left:18px;right:18px;opacity:{{ f.home }}"><dc-import name="HomeGrid" items="{{ f.items }}" theme="{{ f.th }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;left:{{ f.l }}px;top:{{ f.t }}px;width:{{ f.w }}px;height:{{ f.h }}px;border-radius:{{ f.r }}px;background:{{ f.fill }};overflow:hidden;box-shadow:{{ f.sh }}">
+<div style="position:absolute;inset:0;display:grid;place-items:center;color:{{ f.fg }};opacity:{{ f.gl }}"><svg width="{{ f.gs }}" height="{{ f.gs }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{ f.d }}"></path></svg></div>
+<div style="position:absolute;left:0;top:0;width:390px;height:844px;opacity:{{ f.c }};color:#4A3F35"><div style="padding:80px 26px 0;display:flex;flex-direction:column;gap:16px"><div style="font-size:30px;font-weight:800">Recetas</div><div style="height:120px;border-radius:24px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1)"></div><div style="height:90px;border-radius:24px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1)"></div><div style="height:90px;border-radius:24px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1)"></div></div></div>
+<div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:#4A3F35;opacity:{{ f.hd }}"></div></div></div></div></div>
+</sc-for>
+<div style="display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:800;color:#6B5B4B"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 10px;margin-right:8px">▶</span>Bucle en vivo</div>
+<div style="position:relative;width:195px;height:422px;border-radius:22px;overflow:hidden;box-shadow:0 16px 40px rgba(90,60,30,.18)"><div style="position:absolute;left:0;top:0;width:390px;height:844px;transform:scale(.5);transform-origin:0 0;background:#F5EEE3;overflow:hidden"><div style="position:absolute;top:142px;left:18px;right:18px"><dc-import name="HomeGrid" items="{{ frames.0.items }}" theme="{{ frames.0.th }}" cols="4" size="64" hint-size="100%,420px"></dc-import></div>
+<div style="position:absolute;left:296px;top:140px;width:64px;height:64px;border-radius:15px;background:#F5EEE3;box-shadow:0 8px 24px rgba(110,80,50,.2);animation:expand 4.5s cubic-bezier(.2,.8,.2,1) infinite;overflow:hidden"><div style="position:absolute;inset:0;background:oklch(0.88 0.06 55)"></div><div style="position:absolute;left:0;top:0;width:390px;height:844px;background:#F5EEE3"><div style="padding:80px 26px 0;display:flex;flex-direction:column;gap:16px;color:#4A3F35"><div style="font-size:30px;font-weight:800">Recetas</div><div style="height:120px;border-radius:24px;background:#FBF7F0"></div><div style="height:90px;border-radius:24px;background:#FBF7F0"></div></div><div style="position:absolute;bottom:8px;left:128px;width:134px;height:5px;border-radius:99px;background:#4A3F35;opacity:.8"></div></div></div></div></div></div>
+<div style="width:300px;display:flex;flex-direction:column;gap:12px;font-size:15px;font-weight:600;line-height:1.5;color:#4A3F35;padding-top:30px"><span style="font-size:18px;font-weight:800">Especificación</span><span>Duración 420 ms · easing cubic-bezier(.2,.8,.2,1). El rectángulo parte de la posición y tamaño exactos del icono, mantiene su color pastel y crece hasta cubrir la pantalla.</span><span>El glifo se desvanece hacia el 40 %; la app aparece desde el 60 %. Al abrir, la cuadrícula se atenúa y reduce ligeramente.</span><span>Cierre: deslizar hacia arriba desde la barra-asa inferior, o desde el borde lateral izquierdo. La app se contrae de vuelta a su icono (la misma animación a la inversa, 340 ms).</span></div>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:30px">
+<div style="font-size:30px;font-weight:800;color:#4A3F35">Estilo compartido para todas las apps</div>
+<div style="display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap">
+<div style="width:620px;border-radius:28px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1);padding:28px;display:flex;flex-direction:column;gap:14px;color:#4A3F35"><div style="display:flex;gap:10px;align-items:center"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 12px;font-weight:800;font-size:14px">1</span><span style="font-size:20px;font-weight:800">Kit inyectado</span></div><span style="font-size:15px;font-weight:600;line-height:1.5;color:#7A6D60">El lanzador antepone <b>cajon-kit.css</b> al HTML de cada app y cambia <b>data-theme</b> al cambiar de tema. Las apps usan variables, nunca colores fijos.</span>
+<div style="white-space:pre;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;background:#EFE6D8;border-radius:20px;padding:18px 20px;overflow:hidden">:root, [data-theme="light"] {
+  --bg: #F5EEE3;  --surface: #FBF7F0;
+  --text: #4A3F35; --accent: #8A5A44;
+  --peach: oklch(0.88 0.06 55);
+  --peach-ink: oklch(0.38 0.08 55);
+  --r-card: 24px;  --font: 'Nunito';
+}
+[data-theme="dark"] {
+  --bg: #2B241F;  --surface: #382F28;
+  --text: #F3E9DB; --accent: #E9C9A6;
+  --peach: oklch(0.76 0.045 55); …
+}</div>
+<div style="white-space:pre;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;background:#EFE6D8;border-radius:20px;padding:18px 20px">.tarjeta {
+  background: var(--surface, #FBF7F0);
+  border-radius: var(--r-card, 24px);
+  box-shadow: var(--shadow, 0 8px 24px #0001);
+}</div>
+<span style="font-size:13px;font-weight:700;color:#7A6D60">Archivo completo: cajon-kit.css</span></div>
+
+<div style="width:620px;border-radius:28px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1);padding:28px;display:flex;flex-direction:column;gap:14px;color:#4A3F35"><div style="display:flex;gap:10px;align-items:center"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 12px;font-weight:800;font-size:14px">2</span><span style="font-size:20px;font-weight:800">Prompt base para crear apps</span></div><span style="font-size:15px;font-weight:600;line-height:1.5;color:#7A6D60">Se pega al principio de cada petición. Las apps nacen con las variables, los radios, los iconos de línea y el modo móvil ya resueltos.</span>
+<div style="white-space:pre-wrap;font-size:14px;font-weight:600;line-height:1.55;background:#EFE6D8;border-radius:20px;padding:18px 20px">Crea una mini-app en UN solo archivo HTML. Va dentro de «Cajón de sastre», que le inyecta variables CSS.
+
+• No uses colores fijos: usa var(--bg), --surface, --text, --accent y los pasteles --rose, --sage, --lav, --peach, --sky, --butter, --mint, --clay (+ -ink).
+• Fuente var(--font); radios --r-card; botones en píldora; sombras suaves --shadow; sin bordes duros.
+• Funciona en claro y oscuro solo con las variables.
+• Iconos SVG de línea, trazo 1.6, currentColor. Sin emojis.
+• Móvil primero, táctiles de 44px, 24px libres abajo.
+
+LA APP QUE QUIERO: […]</div>
+<span style="font-size:13px;font-weight:700;color:#7A6D60">Versión completa: prompt-base.md</span></div>
+
+<div style="display:flex;flex-direction:column;gap:16px;width:520px"><div style="border-radius:28px;background:#FBF7F0;box-shadow:0 8px 24px rgba(110,80,50,.1);padding:28px;display:flex;flex-direction:column;gap:16px;color:#4A3F35"><div style="display:flex;gap:10px;align-items:center"><span style="background:#4A3F35;color:#F5EEE3;border-radius:99px;padding:2px 12px;font-weight:800;font-size:14px">3</span><span style="font-size:20px;font-weight:800">Interruptor «Adaptar estilo»</span></div><span style="font-size:15px;font-weight:600;line-height:1.5;color:#7A6D60">Está en las hojas Añadir y Editar. Para apps antiguas o ajenas: añade una capa base con especificidad cero, así lo que la app defina por su cuenta sigue mandando.</span>
+<div style="display:flex;gap:16px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;color:#7A6D60">DESACTIVADO</span><div style="height:150px;border-radius:20px;background:#fff;padding:14px;font-family:Times New Roman,serif;color:#000;display:flex;flex-direction:column;gap:8px"><b style="font-size:16px">Mi rutina</b><span style="font-size:12px">Lunes: pecho</span><span style="align-self:flex-start;padding:4px 10px;background:#ddd;border:1px solid #999;font-family:Arial;font-size:12px">Guardar</span></div></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;color:#7A6D60">ACTIVADO</span><div style="height:150px;border-radius:20px;background:#F5EEE3;padding:14px;font-family:Nunito,sans-serif;color:#4A3F35;display:flex;flex-direction:column;gap:8px"><b style="font-size:17px;font-weight:800">Mi rutina</b><span style="font-size:12.5px;font-weight:600">Lunes: pecho</span><span style="align-self:flex-start;padding:7px 16px;border-radius:99px;background:#8A5A44;color:#FBF7F0;font-size:13px;font-weight:800;box-shadow:0 4px 12px rgba(110,80,50,.12)">Guardar</span></div></div></div>
+<span style="font-size:13px;font-weight:600;line-height:1.5;color:#7A6D60">Límite: si la app trae colores fijos en línea o imágenes con texto, esos no cambian. Por eso la vía 2 es la más fiable.</span></div></div>
+</div></div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const I = {
+      drop: "M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z",
+      dumbbell: "M6 8v8M3 10v4M18 8v8M21 10v4M6 12h12",
+      cal: "M4 6h16v14H4zM4 10h16M8 3v4M16 3v4",
+      book: "M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h10",
+      coins: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4",
+      utensils: "M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10",
+      music: "M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z",
+      leaf: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8",
+      moon: "M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z",
+      heart: "M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z",
+      list: "M9 6h11M9 12h11M9 18h11M3.5 6l1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2",
+      timer: "M12 8v5l3 2M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10 2h4",
+      coffee: "M5 9h12v6a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3",
+      sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5",
+      plus: "M12 5v14M5 12h14", search: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4",
+      sliders: "M4 7h10M18 7h2M4 17h2M10 17h10M16 5v4M8 15v4", x: "M6 6l12 12M18 6L6 18",
+      pencil: "M4 20l1-4L16 5l3 3L8 19zM14 7l3 3", upload: "M12 16V4M7 9l5-5 5 5M4 20h16",
+      download: "M12 4v12M7 11l5 5 5-5M4 20h16", copy: "M8 8h12v12H8zM4 16V4h12",
+      key: "M14 10a4 4 0 1 1-7-3 4 4 0 0 1 7 3zM11 13l9 7M17 17l2-2",
+      refresh: "M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5",
+      lock: "M5 11h14v9H5zM8 11V8a4 4 0 0 1 8 0v3", chev: "M9 6l6 6-6 6",
+      monitor: "M3 5h18v11H3zM8 20h8M12 16v4", cloud: "M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 11a3.5 3.5 0 0 1-.5 7z",
+      eye: "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+    };
+    const H = { rose: 10, sage: 140, lav: 295, peach: 55, sky: 235, butter: 95, mint: 175, clay: 38 };
+    const PN = [['Rosa', 'rose', 'drop'], ['Salvia', 'sage', 'leaf'], ['Lavanda', 'lav', 'book'], ['Melocotón', 'peach', 'utensils'], ['Cielo', 'sky', 'cal'], ['Mantequilla', 'butter', 'coins'], ['Menta', 'mint', 'sun'], ['Arcilla', 'clay', 'list']];
+    const APPS = { skin: ['Skincare', 'drop', 'rose'], gym: ['Gym', 'dumbbell', 'sage'], hor: ['Horario', 'cal', 'sky'], rec: ['Recetas', 'utensils', 'peach'], lec: ['Lectura', 'book', 'lav'], gas: ['Gastos', 'coins', 'butter'], tar: ['Tareas', 'list', 'clay'], mus: ['Música', 'music', 'lav'], pom: ['Pomodoro', 'timer', 'peach'], pla: ['Plantas', 'leaf', 'sage'], hab: ['Hábitos', 'heart', 'rose'], sue: ['Sueño', 'moon', 'sky'], med: ['Meditar', 'sun', 'mint'], cafe: ['Café', 'coffee', 'clay'] };
+    const mk = (dark) => {
+      const col = (h) => dark ? { bg: `oklch(0.76 0.045 ${H[h]})`, fg: `oklch(0.27 0.05 ${H[h]})` } : { bg: `oklch(0.88 0.06 ${H[h]})`, fg: `oklch(0.38 0.08 ${H[h]})` };
+      const T = dark ? {
+        id: 'oscuro', label: 'oscuro', bg: '#2B241F', surface: '#382F28', sheet: '#382F28', field: '#2B241F', text: '#F3E9DB', muted: '#B8A999', handle: 'rgba(243,233,219,.25)',
+        accent: '#E9C9A6', onAccent: '#2B241F', shadow: '0 10px 28px rgba(0,0,0,.28)', iconShadow: '0 4px 12px rgba(0,0,0,.25)', lift: '0 18px 40px rgba(0,0,0,.4)',
+        badge: '#F3E9DB', onBadge: '#2B241F', folderBg: '#4A4037', ring: 'rgba(243,233,219,.16)', ok: '#9CCB9A', warn: '#E0A38F', busy: '#9DBEDD', danger: '#EDA895', overlay: 'rgba(20,14,10,.5)', pL: '0.76 · C 0.045'
+      } : {
+        id: 'claro', label: 'claro', bg: '#F5EEE3', surface: '#FBF7F0', sheet: '#FBF7F0', field: '#EFE6D8', text: '#4A3F35', muted: '#7A6D60', handle: 'rgba(74,63,53,.2)',
+        accent: '#8A5A44', onAccent: '#FBF7F0', shadow: '0 8px 24px rgba(110,80,50,.10)', iconShadow: '0 4px 12px rgba(110,80,50,.12)', lift: '0 18px 40px rgba(110,80,50,.22)',
+        badge: '#4A3F35', onBadge: '#FBF7F0', folderBg: '#E9DECB', ring: 'rgba(74,63,53,.10)', ok: '#7FB07C', warn: '#C9806A', busy: '#6E9FCB', danger: '#A94B38', overlay: 'rgba(74,63,53,.28)', pL: '0.88 · C 0.06'
+      };
+      const app = (k) => { const [name, ic, h] = APPS[k]; return { name, d: I[ic], ...col(h), isApp: true, isFolder: false }; };
+      const folder = (name, keys) => ({ name, isFolder: true, isApp: false, bg: T.folderBg, fg: T.text, minis: keys.slice(0, 4).map(app) });
+      const page1 = [app('skin'), app('gym'), app('hor'), app('rec'), folder('Bienestar', ['skin', 'gym', 'med', 'hab']), app('lec'), app('gas'), app('tar'), folder('Cocina', ['rec', 'cafe', 'pla', 'pom']), app('mus'), app('pom'), app('pla'), app('hab'), app('sue')];
+      const page1Edit = page1.map((x, i) => ({ ...x, drag: i === 5, target: i === 4 }));
+      T.page1 = page1; T.page1Edit = page1Edit;
+      T.folderApps = ['skin', 'gym', 'med', 'hab', 'sue', 'pla'].map(app);
+      T.recents = ['skin', 'gym', 'hor', 'rec'].map(app);
+      T.deskItems = [...page1, app('cafe'), app('med')];
+      T.results = [{ ...app('gym'), name: 'Rutina gym', where: 'Bienestar' }, { ...app('skin'), name: 'Rutina de noche', where: 'Skincare · Bienestar' }, { ...app('hor'), name: 'Rutina de estudio', where: 'Horario' }];
+      T.pastels = PN.map(([name, h, ic]) => ({ name, ...col(h), d: I[ic] }));
+      const icl = ['drop', 'dumbbell', 'cal', 'book', 'coins', 'utensils', 'music', 'leaf', 'moon', 'heart', 'list', 'timer', 'coffee', 'sun', 'cloud', 'key'];
+      T.formIcons = icl.map((k, n) => n === 3 ? { d: I[k], bg: col('peach').bg, fg: col('peach').fg, sh: T.iconShadow } : { d: I[k], bg: T.field, fg: T.text, sh: 'none' });
+      T.swatches = Object.keys(H).map((h, n) => ({ bg: col(h).bg, fg: col(h).fg, on: n === 3, sh: n === 3 ? `0 0 0 3px ${T.sheet},0 0 0 5px ${T.accent}` : T.iconShadow }));
+      T.folders = [['Ninguna', 0], ['Bienestar', 1], ['Cocina', 0], ['+ Nueva', 0]].map(([name, on]) => ({ name, bg: on ? T.accent : T.field, fg: on ? T.onAccent : T.text }));
+      T.base = [{ name: 'Fondo', hex: T.bg }, { name: 'Superficie', hex: T.surface }, { name: 'Campo', hex: T.field }, { name: 'Texto', hex: T.text }, { name: 'Acento', hex: T.accent }];
+      const dn = dark ? 1 : 0;
+      T.seg = [['Claro', 'sun'], ['Oscuro', 'moon'], ['Sistema', 'monitor']].map(([name, ic], n) => { const on = n === dn; return { name, d: I[ic], bg: on ? T.sheet : 'transparent', sh: on ? T.iconShadow : 'none', w: on ? 800 : 700, c: on ? T.text : T.muted }; });
+      T.steps = [{ name: 'Código verificado', done: true, bg: T.ok, c: T.text }, { name: 'Descargando apps (8 de 12)', done: false, bg: T.busy, c: T.text }, { name: 'Preparando iconos', done: false, bg: T.field, c: T.muted }];
+      return T;
+    };
+    const themes = [mk(false), mk(true)];
+    const L = themes[0], rec = L.page1[3];
+    const F = [
+      ['1', '0 ms', 'Toque', 296, 140, 64, 64, 15, 1, 1, 0, 1, 0],
+      ['2', '100 ms', 'Crece y se eleva', 250, 118, 130, 130, 30, 0.9, 1, 0, 0.9, 0],
+      ['3', '200 ms', 'Rectángulo central', 90, 90, 290, 380, 34, 0.6, 0.6, 0.05, 0.6, 0],
+      ['4', '320 ms', 'Casi a pantalla', 10, 30, 370, 790, 44, 0.25, 0, 0.6, 0.3, 0],
+      ['5', '420 ms', 'App abierta · asa', 0, 0, 390, 844, 0, 0, 0, 1, 0, 0.8]
+    ].map(([n, time, label, l, t, w, h, r, home, gl, c, hm, hd], k) => ({
+      n, time, label, l, t, w, h, r, home: hm, gl, c, hd, th: L, items: L.page1, d: rec.d, fg: rec.fg,
+      fill: k < 3 ? rec.bg : '#F5EEE3', gs: Math.round(Math.min(w, h) * 0.47), sh: k < 4 ? L.lift : 'none'
+    }));
+    return { themes, frames: F, i: I };
+  }
+}
+</script>
+</body>
+</html>
