@@ -42,7 +42,7 @@ export function Settings({ theme, setTheme, searchMode, setSearchMode, code, sta
             <span class="status"><i style={{ background: st[0] }} />{st[1]}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ flex: 1, padding: '13px 16px', borderRadius: 18, background: 'var(--field)', fontSize: 16, fontWeight: 800, letterSpacing: '.08em', userSelect: 'text' }}>{show ? shown : maskCode(shown)}</div>
+            <div style={{ flex: 1, padding: '13px 16px', borderRadius: 18, background: 'var(--field)', fontSize: 15, fontWeight: 800, letterSpacing: '.06em', whiteSpace: 'nowrap', minWidth: 0, overflow: 'hidden', userSelect: 'text' }}>{show ? shown : maskCode(shown)}</div>
             <button class="circle" style={{ width: 44, height: 44, background: 'var(--field)', boxShadow: 'none' }} onClick={() => setShow(!show)} aria-label="Ver código">{show ? <EyeOff size={19} strokeWidth={1.7} /> : <Eye size={19} strokeWidth={1.7} />}</button>
             <button class="circle" style={{ width: 44, height: 44, background: 'var(--field)', boxShadow: 'none' }} onClick={copy} aria-label="Copiar código">{copied ? <Check size={19} strokeWidth={1.8} /> : <Copy size={19} strokeWidth={1.7} />}</button>
           </div>

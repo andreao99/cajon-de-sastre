@@ -10,7 +10,8 @@ input,textarea{font:inherit;color:inherit}
 /* Pantalla (móvil a pantalla completa; en escritorio se centra con ancho máximo) */
 .screen{position:relative;height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
 .header{padding:18px 26px 0}
-.header .date{font-size:13px;font-weight:600;color:var(--muted);text-transform:capitalize}
+.header .date{font-size:13px;font-weight:600;color:var(--muted)}
+.header .date::first-letter{text-transform:uppercase}
 .header .greet{font-size:22px;font-weight:800;margin-top:2px}
 .circle{width:46px;height:46px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center}
 .pill{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:54px;padding:0 30px;border-radius:var(--r-pill);background:var(--accent);color:var(--on-accent);font-size:16px;font-weight:800;box-shadow:var(--shadow)}
@@ -26,8 +27,8 @@ input,textarea{font:inherit;color:inherit}
 .item{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;width:100%;touch-action:manipulation}
 .icon{position:relative;width:var(--size);height:var(--size);border-radius:var(--r-icon);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
 .icon.folder{border-radius:26%;background:var(--folder-bg)}
-.icon .minis{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:70%;height:70%}
-.icon .minis>div{border-radius:28%;display:grid;place-items:center}
+.icon .minis{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;align-content:center;gap:5px;width:70%;height:70%}
+.icon .minis>div{border-radius:28%;display:grid;place-items:center;aspect-ratio:1}
 .item .name{font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .editing .icon{animation:jiggle .28s ease-in-out infinite alternate}
 .editing .item:nth-child(3n) .icon{animation-duration:.31s;animation-delay:-.07s}
