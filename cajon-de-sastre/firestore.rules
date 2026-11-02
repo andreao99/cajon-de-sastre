@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Solo se accede a vaults/{vaultId}/** conociendo el id (hash SHA-256 del código, 64 hex).
+    // No hay regla para la colección raíz «vaults» ni para ningún otro documento:
+    // nadie puede listar los vaults existentes (todo lo demás queda denegado por defecto).
+    match /vaults/{vaultId}/{document=**} {
+      allow read, write: if vaultId.matches('^[a-f0-9]{64}$');
+    }
+  }
+}
