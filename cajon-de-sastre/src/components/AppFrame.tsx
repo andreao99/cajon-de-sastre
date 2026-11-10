@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { ChevronLeft } from 'lucide-preact';
 import type { AppItem } from '../lib/types';
 import { injectIntoHtml, SANDBOX } from '../lib/shim';
 import { entriesBytes, MAX_BYTES } from '../lib/limits';
@@ -118,7 +119,8 @@ export function AppFrame({ app, initial, origin, onEntries, onClose }: Props) {
           <iframe ref={frame} title={app.name} srcDoc={srcdoc} sandbox={SANDBOX} style={{ width: '100%', height: '100%', border: 0, display: 'block' }} />
           {overQuota && <div class="card" style={{ position: 'absolute', top: 12, left: 12, right: 12, color: 'var(--danger)', fontSize: 13, fontWeight: 700 }}>Los datos de esta app superan 1 MB: los últimos cambios no se guardan.</div>}
           <div {...edge} aria-hidden="true" style={{ position: 'absolute', left: 0, top: 0, bottom: 40, width: 14, touchAction: 'none' }} />
-          <div {...bottom} role="button" aria-label="Cerrar app (desliza hacia arriba)" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: 200, height: 34, display: 'grid', placeItems: 'center', touchAction: 'none', cursor: 'pointer' }}>
+          <button aria-label="Volver" title="Volver" onClick={close} style={{ position: 'absolute', top: 'calc(10px + env(safe-area-inset-top))', left: 10, width: 40, height: 40, borderRadius: '50%', background: 'var(--surface)', color: 'var(--text)', boxShadow: 'var(--shadow-sm)', opacity: 0.75, display: 'grid', placeItems: 'center' }}><ChevronLeft size={22} strokeWidth={1.8} /></button>
+          <div {...bottom} role="button" aria-label="Cerrar app (desliza hacia arriba)" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 32, display: 'grid', placeItems: 'center', touchAction: 'none', cursor: 'pointer' }}>
             <span style={{ width: 134, height: 5, borderRadius: 99, background: 'var(--text)', opacity: 0.6 }} />
           </div>
         </div>
