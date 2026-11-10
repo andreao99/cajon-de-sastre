@@ -15,7 +15,7 @@ interface Props { app: AppItem; initial: Record<string, string>; origin?: DOMRec
 /**
  * Ejecuta la app SOLO dentro de un iframe sandbox sin allow-same-origin.
  * El icono se expande a pantalla completa (Web Animations) y se cierra deslizando
- * desde el asa inferior o el borde izquierdo: el gesto «rebobina» la propia animación de apertura.
+ * desde el borde izquierdo (o con el botón Volver): el gesto «rebobina» la propia animación de apertura.
  */
 export function AppFrame({ app, initial, origin, onEntries, onClose }: Props) {
   const frame = useRef<HTMLIFrameElement>(null);
@@ -86,7 +86,7 @@ export function AppFrame({ app, initial, origin, onEntries, onClose }: Props) {
       onPointerCancel: () => { if (active) { active = false; cancelGesture(); } },
     };
   };
-  const bottom = gesture('y'), edge = gesture('x');
+  const edge = gesture('x');
 
   // ----- Datos de la app, Escape, botón atrás, tema -----
   useEffect(() => {
@@ -118,11 +118,8 @@ export function AppFrame({ app, initial, origin, onEntries, onClose }: Props) {
         <div ref={content} style={{ ...fixed, background: 'var(--bg)' }}>
           <iframe ref={frame} title={app.name} srcDoc={srcdoc} sandbox={SANDBOX} style={{ width: '100%', height: '100%', border: 0, display: 'block' }} />
           {overQuota && <div class="card" style={{ position: 'absolute', top: 12, left: 12, right: 12, color: 'var(--danger)', fontSize: 13, fontWeight: 700 }}>Los datos de esta app superan 1 MB: los últimos cambios no se guardan.</div>}
-          <div {...edge} aria-hidden="true" style={{ position: 'absolute', left: 0, top: 0, bottom: 40, width: 14, touchAction: 'none' }} />
+          <div {...edge} aria-hidden="true" style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 14, touchAction: 'none' }} />
           <button aria-label="Volver" title="Volver" onClick={close} style={{ position: 'absolute', top: 'calc(10px + env(safe-area-inset-top))', left: 10, width: 40, height: 40, borderRadius: '50%', background: 'var(--surface)', color: 'var(--text)', boxShadow: 'var(--shadow-sm)', opacity: 0.75, display: 'grid', placeItems: 'center' }}><ChevronLeft size={22} strokeWidth={1.8} /></button>
-          <div {...bottom} role="button" aria-label="Cerrar app (desliza hacia arriba)" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 32, display: 'grid', placeItems: 'center', touchAction: 'none', cursor: 'pointer' }}>
-            <span style={{ width: 134, height: 5, borderRadius: 99, background: 'var(--text)', opacity: 0.6 }} />
-          </div>
         </div>
       </div>
     </div>
