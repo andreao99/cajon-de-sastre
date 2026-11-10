@@ -36,14 +36,11 @@ export function tidy(lib: Library): Library {
   const folders = lib.folders.filter((f) => lib.apps.some((a) => a.folderId === f.id));
   const base = { apps: lib.apps, folders };
   const pos = new Map(topLevel(base).map((e, i) => [e.id, i]));
-  const inFolder = new Map<string, number>();
+  const inside = new Map<string, number>();
+  for (const f of folders) lib.apps.filter((a) => a.folderId === f.id).sort((a, b) => a.order - b.order).forEach((a, i) => inside.set(a.id, i));
   return {
     folders: folders.map((f) => ({ ...f, order: pos.get(f.id)! })),
-    apps: lib.apps.map((a) => {
-      if (!a.folderId) return { ...a, order: pos.get(a.id)! };
-      const n = inFolder.get(a.folderId) ?? 0; inFolder.set(a.folderId, n + 1);
-      return { ...a, order: n };
-    }),
+    apps: lib.apps.map((a) => ({ ...a, order: a.folderId ? inside.get(a.id)! : pos.get(a.id)! })),
   };
 }
 
@@ -72,6 +69,16 @@ export function reorder(lib: Library, id: string, to: number): Library {
   const [moved] = list.splice(from, 1); list.splice(to > from ? to - 1 : to, 0, moved);
   const pos = new Map(list.map((e, i) => [e.id, i]));
   return tidy({ folders: lib.folders.map((f) => ({ ...f, order: pos.get(f.id) ?? f.order })), apps: lib.apps.map((a) => (pos.has(a.id) && !a.folderId ? { ...a, order: pos.get(a.id)! } : a)) });
+}
+
+/** Mueve una app dentro de su carpeta al índice `to` (índice previo a la retirada). */
+export function reorderInFolder(lib: Library, id: string, to: number): Library {
+  const app = lib.apps.find((a) => a.id === id); if (!app?.folderId) return lib;
+  const list = lib.apps.filter((a) => a.folderId === app.folderId).sort((a, b) => a.order - b.order);
+  const from = list.findIndex((a) => a.id === id);
+  const [moved] = list.splice(from, 1); list.splice(to > from ? to - 1 : to, 0, moved);
+  const pos = new Map(list.map((a, i) => [a.id, i]));
+  return tidy({ ...lib, apps: lib.apps.map((a) => (pos.has(a.id) ? { ...a, order: pos.get(a.id)! } : a)) });
 }
 
 /** Suelta una app sobre otra entrada: sobre una carpeta entra en ella; sobre otra app crea una carpeta nueva. */

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { Plus, Search, SlidersHorizontal } from 'lucide-preact';
 import type { AppItem, Folder } from '../lib/types';
-import { dropOnto, removeApp, removeFolder, renameFolder, reorder, topLevel, type Library } from '../lib/store';
+import { dropOnto, removeApp, reorderInFolder, updateApp, removeFolder, renameFolder, reorder, topLevel, type Library } from '../lib/store';
 import { useLongPress } from '../hooks/useLongPress';
 import { AppTile, FolderTile } from './Icons';
 import { FolderSheet } from './FolderSheet';
@@ -68,17 +68,20 @@ export function Home({ lib, onLib, onEditApp, searchMode, onSettings, onAdd, onO
   const dragProps = (id: string) => ({
     onPointerDown: (e: PointerEvent) => {
       if ((e.target as HTMLElement).closest('.badge')) return;
+      press.onPointerDown(e);
       const el = e.currentTarget as HTMLElement; el.setPointerCapture(e.pointerId);
       drag.current = { id, sx: e.clientX, sy: e.clientY, started: false, el };
     },
     onPointerMove: (e: PointerEvent) => {
-      const d = drag.current; if (!d) return;
+      press.onPointerMove(e);
+      const d = drag.current; if (!d || !edit) return;
       const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
       if (!d.started) { if (Math.hypot(dx, dy) < 8) return; d.started = true; setDragId(id); }
       d.el.style.transform = `translate(${dx}px,${dy}px)`;
       const t = locate(e, id); setTarget(t?.onto ? t.id : null);
     },
     onPointerUp: (e: PointerEvent) => {
+      press.onPointerUp();
       const d = drag.current; drag.current = null; if (!d) return;
       d.el.style.transform = '';
       if (d.started) {
@@ -91,9 +94,9 @@ export function Home({ lib, onLib, onEditApp, searchMode, onSettings, onAdd, onO
       }
       setDragId(null); setTarget(null);
     },
-    onPointerCancel: () => { if (drag.current) drag.current.el.style.transform = ''; drag.current = null; setDragId(null); setTarget(null); },
+    onPointerCancel: () => { press.onPointerCancel(); if (drag.current) drag.current.el.style.transform = ''; drag.current = null; setDragId(null); setTarget(null); },
   });
-  const tileProps = (id: string) => ({ id, cls: `${dragId === id ? 'dragging' : ''} ${targetId === id ? 'target' : ''}`, press: edit ? dragProps(id) : press });
+  const tileProps = (id: string) => ({ id, cls: `${dragId === id ? 'dragging' : ''} ${targetId === id ? 'target' : ''}`, press: { ...press, ...dragProps(id) } });
   const confirmDel = (msg: string, fn: () => void) => { if (confirm(msg)) fn(); };
   const iconRect = (e: Event) => ((e.currentTarget as HTMLElement).querySelector('.icon') as HTMLElement | null)?.getBoundingClientRect();
   const tap = (fn: (rect?: DOMRect) => void) => (e: Event) => { if (!press.wasLong() && !edit) fn(iconRect(e)); };
@@ -144,7 +147,7 @@ export function Home({ lib, onLib, onEditApp, searchMode, onSettings, onAdd, onO
         {!edit && entries.length > 0 && <button class="circle" onClick={onAdd} aria-label="Añadir app"><Plus size={21} strokeWidth={1.7} /></button>}
       </div>
 
-      {openFolder && lib.folders.find((f) => f.id === openFolder.id) && <FolderSheet folder={lib.folders.find((f) => f.id === openFolder.id)!} startEditing={openFolder.rename} apps={folderApps(openFolder.id)} onRename={(n) => onLib(renameFolder(lib, openFolder.id, n))} onClose={() => setOpenFolder(null)} onOpenApp={(a, rect) => { setOpenFolder(null); onOpenApp(a, rect); }} />}
+      {openFolder && lib.folders.find((f) => f.id === openFolder.id) && <FolderSheet folder={lib.folders.find((f) => f.id === openFolder.id)!} startEditing={openFolder.rename} editMode={edit} onExtract={(a, close) => { onLib(updateApp(lib, a.id, { folderId: null })); if (close) setOpenFolder(null); }} onMove={(id, to) => onLib(reorderInFolder(lib, id, to))} onEditApp={onEditApp} apps={folderApps(openFolder.id)} onRename={(n) => onLib(renameFolder(lib, openFolder.id, n))} onClose={() => setOpenFolder(null)} onOpenApp={(a, rect) => { setOpenFolder(null); onOpenApp(a, rect); }} />}
       {search && <SearchOverlay lib={lib} onClose={() => setSearch(false)} onOpenApp={(a, rect) => { setSearch(false); onOpenApp(a, rect); }} />}
     </div>
   );
