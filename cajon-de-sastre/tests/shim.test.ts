@@ -65,6 +65,10 @@ describe('inyección en el HTML', () => {
   it('crea el head tras el doctype si falta', () => {
     expect(injectIntoHtml('<!DOCTYPE html><h1>Hola</h1>', o)).toMatch(/^<!DOCTYPE html><head><script>/);
   });
+  it('incluye la red de seguridad responsive salvo que se desactive', () => {
+    expect(injectIntoHtml('<head></head>', o)).toContain('e.style.zoom');
+    expect(injectIntoHtml('<head></head>', { ...o, fit: false })).not.toContain('e.style.zoom');
+  });
   it('extrae el título', () => expect(extractTitle('<title> Mi rutina </title><p>x')).toBe('Mi rutina'));
 });
 

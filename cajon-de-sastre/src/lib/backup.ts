@@ -19,7 +19,7 @@ export function parseBackup(text: string): Backup {
   const apps = raw.apps.map((a: any): AppItem => {
     const html = a.html === undefined ? undefined : str(a.html, 'html');
     if (html !== undefined && byteLength(html) > MAX_BYTES) throw new Error(`«${a.name}» supera el límite de 1 MB.`);
-    return { id: str(a.id, 'id'), name: str(a.name, 'nombre'), icon: str(a.icon, 'icono'), color: colors.includes(a.color) ? a.color : 'peach', html, adapt: !!a.adapt, folderId: typeof a.folderId === 'string' ? a.folderId : null, page: num(a.page), order: num(a.order), createdAt: num(a.createdAt, Date.now()) };
+    return { id: str(a.id, 'id'), name: str(a.name, 'nombre'), icon: str(a.icon, 'icono'), color: colors.includes(a.color) ? a.color : 'peach', html, adapt: !!a.adapt, fit: a.fit !== false, folderId: typeof a.folderId === 'string' ? a.folderId : null, page: num(a.page), order: num(a.order), createdAt: num(a.createdAt, Date.now()) };
   });
   const folders = raw.folders.map((f: any): Folder => ({ id: str(f.id, 'id de carpeta'), name: str(f.name, 'nombre de carpeta'), page: num(f.page), order: num(f.order) }));
   const appData: Backup['appData'] = {};

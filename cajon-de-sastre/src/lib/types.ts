@@ -6,5 +6,5 @@ export const PASTELS: { name: string; key: PastelName }[] = [
 ];
 
 /** Modelo alineado con vaults/{hash}/apps y /folders (el html se añade en la fase 2). */
-export interface AppItem { id: string; name: string; icon: string; color: PastelName; html?: string; adapt?: boolean; folderId: string | null; page: number; order: number; createdAt: number }
+export interface AppItem { id: string; name: string; icon: string; color: PastelName; html?: string; adapt?: boolean; fit?: boolean; folderId: string | null; page: number; order: number; createdAt: number }
 export interface Folder { id: string; name: string; page: number; order: number }

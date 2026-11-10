@@ -24,7 +24,7 @@ export function AppFrame({ app, initial, origin, onEntries, onClose }: Props) {
   const closing = useRef(false);
   const [overQuota, setOverQuota] = useState(false);
   // srcdoc se calcula una sola vez: los datos iniciales son los guardados al abrir
-  const srcdoc = useMemo(() => injectIntoHtml(app.html ?? '', { appId: app.id, entries: initial, theme: currentTheme(), adapt: !!app.adapt }), [app.id]);
+  const srcdoc = useMemo(() => injectIntoHtml(app.html ?? '', { appId: app.id, entries: initial, theme: currentTheme(), adapt: !!app.adapt, fit: app.fit !== false }), [app.id]);
   const W = innerWidth, H = innerHeight;
   const r = origin ?? new DOMRect(W / 2 - 32, H / 2 - 32, 64, 64);
 

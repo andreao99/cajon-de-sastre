@@ -24,9 +24,9 @@ export interface LocalStore {
 const empty = (): Library => ({ apps: [], folders: [] });
 const isEmpty = (l: Library) => !l.apps.length && !l.folders.length;
 /** Campos que viajan a Firestore (sin undefined, que Firestore rechaza). */
-export const appDoc = (a: AppItem) => ({ name: a.name, icon: a.icon, color: a.color, html: a.html ?? '', adapt: !!a.adapt, folderId: a.folderId ?? null, page: a.page ?? 0, order: a.order, createdAt: a.createdAt });
+export const appDoc = (a: AppItem) => ({ name: a.name, icon: a.icon, color: a.color, html: a.html ?? '', adapt: !!a.adapt, fit: a.fit !== false, folderId: a.folderId ?? null, page: a.page ?? 0, order: a.order, createdAt: a.createdAt });
 export const folderDoc = (f: Folder) => ({ name: f.name, page: f.page ?? 0, order: f.order });
-const toApp = ({ id, data: d }: RemoteDoc): AppItem => ({ id, name: String(d.name ?? ''), icon: String(d.icon ?? ''), color: d.color, html: d.html || undefined, adapt: !!d.adapt, folderId: d.folderId ?? null, page: d.page ?? 0, order: d.order ?? 0, createdAt: d.createdAt ?? 0 });
+const toApp = ({ id, data: d }: RemoteDoc): AppItem => ({ id, name: String(d.name ?? ''), icon: String(d.icon ?? ''), color: d.color, html: d.html || undefined, adapt: !!d.adapt, fit: d.fit !== false, folderId: d.folderId ?? null, page: d.page ?? 0, order: d.order ?? 0, createdAt: d.createdAt ?? 0 });
 const toFolder = ({ id, data: d }: RemoteDoc): Folder => ({ id, name: String(d.name ?? ''), page: d.page ?? 0, order: d.order ?? 0 });
 
 export class SyncEngine {

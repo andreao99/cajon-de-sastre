@@ -22,7 +22,7 @@ export function demoLibrary(): Library {
 }
 
 // ---------- Operaciones puras sobre la biblioteca ----------
-export type NewApp = Pick<AppItem, 'name' | 'icon' | 'color' | 'html' | 'adapt'>;
+export type NewApp = Pick<AppItem, 'name' | 'icon' | 'color' | 'html' | 'adapt' | 'fit'>;
 export const uid = () => crypto.randomUUID();
 
 export type Entry = { kind: 'app'; id: string; order: number } | { kind: 'folder'; id: string; order: number };

@@ -23,6 +23,7 @@ export function AppForm({ app, folders, onSave, onDelete, onClose }: Props) {
   const [folder, setFolder] = useState<string | null>(app?.folderId ?? null);
   const [newFolder, setNewFolder] = useState<string | null>(null);
   const [adapt, setAdapt] = useState(app?.adapt ?? false);
+  const [fit, setFit] = useState(app?.fit !== false);
   const [editHtml, setEditHtml] = useState(!edit);
   const file = useRef<HTMLInputElement>(null);
 
@@ -33,7 +34,7 @@ export function AppForm({ app, folders, onSave, onDelete, onClose }: Props) {
 
   const pick = async (f?: File) => { if (f) { setCode(await f.text()); setEditHtml(true); setMode('paste'); } };
   const paste = async () => { try { setCode(await navigator.clipboard.readText()); } catch { /* sin permiso: se pega a mano */ } };
-  const submit = () => valid && onSave({ name: name.trim(), icon, color, html, adapt }, newFolder !== null ? null : folder, newFolder?.trim());
+  const submit = () => valid && onSave({ name: name.trim(), icon, color, html, adapt, fit }, newFolder !== null ? null : folder, newFolder?.trim());
 
   return (
     <div class="overlay" style={{ justifyContent: 'flex-end', padding: 0 }} onClick={onClose}>
@@ -96,13 +97,8 @@ export function AppForm({ app, folders, onSave, onDelete, onClose }: Props) {
               : <input class="field" style={{ width: 150, padding: '8px 14px', borderRadius: 99 }} autoFocus placeholder="Nombre" value={newFolder} maxLength={30} onInput={(e) => setNewFolder(e.currentTarget.value)} />}
           </div></div>
 
-        <button class="toggle-row" onClick={() => setAdapt(!adapt)}>
-          <span style={{ display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
-            <span style={{ fontSize: 14, fontWeight: 800 }}>Adaptar estilo del cajón</span>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--muted)' }}>Aplica colores, fuente y formas a esta app</span>
-          </span>
-          <span class={`switch ${adapt ? 'on' : ''}`}><i /></span>
-        </button>
+        <Toggle on={adapt} onClick={() => setAdapt(!adapt)} title="Adaptar estilo del cajón" sub="Aplica colores, fuente y formas a esta app" />
+        <Toggle on={fit} onClick={() => setFit(!fit)} title="Ajustar al móvil" sub="Si la app se sale por los lados, la reduce para que quepa" />
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginTop: 6 }}>
           <button class="pill" style={{ width: '100%', opacity: valid ? 1 : 0.5 }} disabled={!valid} onClick={submit}>{edit ? 'Guardar cambios' : 'Añadir app'}</button>
@@ -115,4 +111,14 @@ export function AppForm({ app, folders, onSave, onDelete, onClose }: Props) {
 
 const Chip = ({ on, onClick, children }: { on: boolean; onClick: () => void; children: preact.ComponentChildren }) => (
   <button class="chip" style={on ? { background: 'var(--accent)', color: 'var(--on-accent)' } : undefined} onClick={onClick}>{children}</button>
+);
+
+const Toggle = ({ on, onClick, title, sub }: { on: boolean; onClick: () => void; title: string; sub: string }) => (
+  <button class="toggle-row" onClick={onClick}>
+    <span style={{ display: 'flex', flexDirection: 'column', flex: 1, textAlign: 'left' }}>
+      <span style={{ fontSize: 14, fontWeight: 800 }}>{title}</span>
+      <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--muted)' }}>{sub}</span>
+    </span>
+    <span class={`switch ${on ? 'on' : ''}`}><i /></span>
+  </button>
 );

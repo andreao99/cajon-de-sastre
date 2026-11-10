@@ -41,12 +41,33 @@ const safeJson = (v: unknown) => JSON.stringify(v).replace(/</g, '\\u003c').repl
 export const shimSource = (appId: string, entries: Record<string, string>) =>
   SHIM.replace('__INIT__', () => safeJson(entries)).replace('__APP__', () => safeJson(appId));
 
-export interface InjectOptions { appId: string; entries: Record<string, string>; theme: 'light' | 'dark'; adapt: boolean }
+/**
+ * «Ajustar al móvil»: red de seguridad para apps que no son responsive. CSS de especificidad cero (cualquier regla de la app
+ * manda) + un script que, si la página sigue desbordando en horizontal, la reduce con `zoom` hasta que quepa.
+ */
+const FIT_CSS = `
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(*,*::before,*::after){box-sizing:border-box}
+:where(img,video,canvas,picture){max-width:100%}
+:where(img,video){height:auto}
+:where(body){overflow-wrap:anywhere;margin-left:auto;margin-right:auto}
+:where(pre){white-space:pre-wrap}
+:where(table){max-width:100%}
+`;
+const FIT_JS = `(function(){var d=document,e=d.documentElement,t=0;
+function run(){t=0;e.style.zoom='';var w=window.innerWidth,s=Math.max(e.scrollWidth,d.body?d.body.scrollWidth:0);
+if(w>0&&s>w+1){e.style.zoom=String(Math.max(.35,w/s))}}
+function go(){if(!t)t=requestAnimationFrame(run)}
+d.addEventListener('DOMContentLoaded',go);window.addEventListener('load',go);window.addEventListener('resize',go);
+window.addEventListener('DOMContentLoaded',function(){if(window.MutationObserver&&d.body)new MutationObserver(go).observe(d.body,{childList:true,subtree:true})});
+})();`;
+
+export interface InjectOptions { appId: string; entries: Record<string, string>; theme: 'light' | 'dark'; adapt: boolean; fit?: boolean }
 
 /** Inserta shim + kit de estilos al principio del <head> (creándolo si falta, siempre después del doctype). */
 export function injectIntoHtml(html: string, o: InjectOptions): string {
   const setup = `document.documentElement.setAttribute('data-theme',${safeJson(o.theme)});${o.adapt ? "document.documentElement.setAttribute('data-cajon-adapt','');" : ''}`;
-  const block = `<script>${setup}</script><script>${shimSource(o.appId, o.entries)}</script><style data-cajon-kit>${kit}</style>`;
+  const block = `<script>${setup}</script><script>${shimSource(o.appId, o.entries)}</script><style data-cajon-kit>${kit}${o.fit === false ? '' : FIT_CSS}</style>${o.fit === false ? '' : `<script>${FIT_JS}</script>`}`;
   const head = /<head(\s[^>]*)?>/i.exec(html);
   if (head) return html.slice(0, head.index + head[0].length) + block + html.slice(head.index + head[0].length);
   const root = /<html(\s[^>]*)?>/i.exec(html);

@@ -25,6 +25,8 @@ npm test
 npm run build    # VITE_BASE=/mi-repo/ para GitHub Pages
 ```
 
+**Ajustar al móvil** (activo por defecto, desactivable por app en la hoja Editar): red de seguridad para apps que no son responsive. Inyecta CSS de especificidad cero (`box-sizing`, imágenes y tablas con `max-width`, texto que parte palabras largas) y un script que, si la página sigue desbordando en horizontal, la reduce con `zoom` hasta que quepa (mínimo 0,35). No sustituye a un diseño responsive: el prompt base sigue siendo la vía fiable.
+
 ## Configurar Firebase
 
 1. En [console.firebase.google.com](https://console.firebase.google.com) crea un proyecto y añade una app **Web**; copia su configuración.
